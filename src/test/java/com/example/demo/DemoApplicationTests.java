@@ -2,7 +2,8 @@ package com.example.demo;
 
 import com.example.demo.common.Result;
 import com.example.demo.controller.TotalMoneyController;
-import com.example.demo.services.Impl.ServiceDemo;
+import com.example.demo.entity.Customer;
+import com.example.demo.entity.Fruit;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,6 @@ import java.util.Map;
 @SpringBootTest(classes = DemoApplication.class)
 class DemoApplicationTests {
     @Autowired
-    ServiceDemo serviceDemo;
-
-    @Autowired
     TotalMoneyController totalMoneyController;
 
     /**
@@ -27,13 +25,18 @@ class DemoApplicationTests {
      */
     @Test
     void firstQuestion() {
-        Map<String,Double> map = new HashMap<>();
-        map.put("applePrice",8.0);
-        map.put("appleWeight", (double) 5);
+        Map<String, Customer> map = new HashMap<>();
+        Fruit apple = new Fruit("apple",8,5);
+        Fruit strawBerry = new Fruit("strawBerry",13,3);
+        Fruit mongo = new Fruit("mongo",20,4);
 
-        map.put("strawBerryPrice",13.0);
-        map.put("strawBerryWeight", (double) 3);
-        Result<?> totalMoney = totalMoneyController.getFirstTotalMoney(map);
+        Customer customer = new Customer();
+        customer.setName("顾客A");
+        customer.buyFruit(apple);
+        customer.buyFruit(strawBerry);
+        map.put("customer",customer);
+
+        Result<?> totalMoney = totalMoneyController.getTotalMoney(map);
         log.info("A 购买的水果的总价={}",totalMoney);
     }
 
@@ -44,16 +47,19 @@ class DemoApplicationTests {
      */
     @Test
     void secondQuestion(){
-        Map<String,Double> map = new HashMap<>();
-        map.put("applePrice",8.0);
-        map.put("appleWeight", (double) 5);
+        Map<String, Customer> map = new HashMap<>();
+        Fruit apple = new Fruit("apple",8,5);
+        Fruit strawBerry = new Fruit("strawBerry",13,3);
+        Fruit mongo = new Fruit("mongo",20,4);
 
-        map.put("strawBerryPrice",13.0);
-        map.put("strawBerryWeight", (double) 3);
+        Customer customer = new Customer();
+        customer.setName("顾客B");
+        customer.buyFruit(apple);
+        customer.buyFruit(strawBerry);
+        customer.buyFruit(mongo);
+        map.put("customer",customer);
 
-        map.put("mongoPrice",20.0);
-        map.put("mongoWeight", (double) 4);
-        Result<?> totalMoney = totalMoneyController.getSecondThirdTotalMoney(map);
+        Result<?> totalMoney = totalMoneyController.getTotalMoney(map);
         log.info("B 购买的水果的总价={}",totalMoney);
     }
 
@@ -64,16 +70,19 @@ class DemoApplicationTests {
      */
     @Test
     void thirdQuestion(){
-        Map<String,Double> map = new HashMap<>();
-        map.put("applePrice",8.0);
-        map.put("appleWeight", (double) 5);
+        Map<String, Customer> map = new HashMap<>();
+        Fruit apple = new Fruit("apple",8,5);
+        Fruit strawBerry = new Fruit("strawBerry",13*0.8,3);
+        Fruit mongo = new Fruit("mongo",20,4);
 
-        map.put("strawBerryPrice",13*0.8);
-        map.put("strawBerryWeight", (double) 3);
+        Customer customer = new Customer();
+        customer.setName("顾客C");
+        customer.buyFruit(apple);
+        customer.buyFruit(strawBerry);
+        customer.buyFruit(mongo);
+        map.put("customer",customer);
 
-        map.put("mongoPrice",20.0);
-        map.put("mongoWeight", (double) 4);
-        Result<?> totalMoney = totalMoneyController.getSecondThirdTotalMoney(map);
+        Result<?> totalMoney = totalMoneyController.getTotalMoney(map);
         log.info("C 购买的水果的总价={}",totalMoney);
     }
 
@@ -84,17 +93,19 @@ class DemoApplicationTests {
      */
     @Test
     void fourthQuestion(){
+        Map<String, Customer> map = new HashMap<>();
+        Fruit apple = new Fruit("apple",8,5);
+        Fruit strawBerry = new Fruit("strawBerry",13*0.8,3);
+        Fruit mongo = new Fruit("mongo",20,4);
 
-        Map<String,Double> map = new HashMap<>();
-        map.put("applePrice",8.0);
-        map.put("appleWeight", (double) 5);
+        Customer customer = new Customer();
+        customer.setName("顾客D");
+        customer.buyFruit(apple);
+        customer.buyFruit(strawBerry);
+        customer.buyFruit(mongo);
+        map.put("customer",customer);
 
-        map.put("strawBerryPrice",13*0.8);
-        map.put("strawBerryWeight", (double) 3);
-
-        map.put("mongoPrice",20.0);
-        map.put("mongoWeight", (double) 4);
-        Result<?> totalMoney = totalMoneyController.getFourthTotalMoney(map);
+        Result<?> totalMoney = totalMoneyController.getDiscountTotalMoney(map);
         log.info("D 购买的水果的总价={}",totalMoney);
     }
 
